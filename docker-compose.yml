@@ -1,0 +1,44 @@
+version: "3.1"
+services:
+  node:
+    build: .
+    command: "npm run start"
+    working_dir: /home/node/app
+    environment:
+      - NODE_ENV=production
+    expose:
+      - "3000"
+    ports:
+      - "3000:3000"
+    networks:
+      - app-doc
+    depends_on:
+      - mongo
+      - mongo-express
+
+  mongo:
+    image: mongo
+    container_name: mongo-app
+    volumes:
+        - .docker-volumes/mongo:/data/db
+    restart: always
+    networks:
+      - app-doc
+
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+      - 8081:8081
+    links:
+      - mongo
+    environment:
+      - ME_CONFIG_MONGODB_URL=mongodb://mongo:27017/
+    depends_on:
+      - mongo
+    networks:
+      - app-doc
+
+networks:
+   app-doc:
+     driver: bridge
