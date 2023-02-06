@@ -7,3 +7,6 @@ O objetivo da aplicação é criar e editar documentos em tempo real!
 ```
 docker-compose up -d
 ````
+
+- Acessar projeto na URL
+http://localhost:3000/
